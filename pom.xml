@@ -34,6 +34,8 @@
 
 	<properties>
 		<java.version>21</java.version>
+		<node.version>v22.16.0</node.version>
+		<pnpm.version>10.12.1</pnpm.version>
 	</properties>
 
 	<dependencies>
@@ -107,6 +109,43 @@
 						</exclude>
 					</excludes>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.github.eirslett</groupId>
+				<artifactId>frontend-maven-plugin</artifactId>
+				<configuration>
+					<workingDirectory>${project.basedir}/src/main/frontend</workingDirectory>
+				</configuration>
+				<executions>
+					<execution>
+						<id>install-node-and-pnpm</id>
+						<goals>
+							<goal>install-node-and-pnpm</goal>
+						</goals>
+						<configuration>
+							<nodeVersion>${node.version}</nodeVersion>
+							<pnpmVersion>${pnpm.version}</pnpmVersion>
+						</configuration>
+					</execution>
+					<execution>
+						<id>install-dependencies</id>
+						<goals>
+							<goal>pnpm</goal>
+						</goals>
+						<configuration>
+							<arguments>install</arguments>
+						</configuration>
+					</execution>
+					<execution>
+						<id>build</id>
+						<goals>
+							<goal>pnpm</goal>
+						</goals>
+						<configuration>
+							<arguments>run build</arguments>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
