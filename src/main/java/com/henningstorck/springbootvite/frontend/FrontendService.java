@@ -20,6 +20,11 @@ public class FrontendService {
 	public static final List<String> DEV_SERVER_ASSETS = List.of("http://localhost:5173/@vite/client", "http://localhost:5173/src/main.ts");
 
 	private final Logger logger = LoggerFactory.getLogger(FrontendService.class);
+	private final FrontendProperties frontendProperties;
+
+	public FrontendService(FrontendProperties frontendProperties) {
+		this.frontendProperties = frontendProperties;
+	}
 
 	public List<String> getStylesheets() {
 		return getAssets().stream().filter(asset -> asset.endsWith(".css")).toList();
@@ -30,7 +35,7 @@ public class FrontendService {
 	}
 
 	private List<String> getAssets() {
-		if (isDevServerRunning()) {
+		if (frontendProperties.isDevelopmentMode() && isDevServerRunning()) {
 			return DEV_SERVER_ASSETS;
 		}
 
